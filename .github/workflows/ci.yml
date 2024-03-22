@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    
+# Make sure the GITHUB_TOKEN has permission to upload to our releases
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -60,22 +64,10 @@ jobs:
     - name: List files in the working directory
       run: ls -la ./artifacts/
 
-    - name: Upload Release Assets_1
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /home/runner/work/rustdedup/rustdedup/artifacts/
-        asset_name: aarch64-unknown-linux-gnu_artifact.zip
-        asset_content_type: application/zip
 
-    - name: Upload Release Assets_2
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /home/runner/work/rustdedup/rustdedup/artifacts/x86_64-unknown-linux-gnu_artifact.zip
-        asset_name: x86_64-unknown-linux-gnu_artifact.zip
-        asset_content_type: application/zip
+    # Build the FeedMD CLI utility, and upload to the release that triggered the workflow 
+    - name: '📦 Packages Upload'
+      run: |
+            gh release upload ${{github.event.release.tag_name}} ./artifacts/x86_64-unknown-linux-gnu_artifact.zip       
+            gh release upload ${{github.event.release.tag_name}} ./artifacts/aarch64-unknown-linux-gnu_artifact.zip       
+
