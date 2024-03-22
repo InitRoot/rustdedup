@@ -67,7 +67,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./artifacts/aarch64-unknown-linux-gnu_artifact.zip
-        asset_name: aarch64-unknown-linux-gnu_artifact.zip
+        asset_name: ./artifacts/aarch64-unknown-linux-gnu_artifact.zip
         asset_content_type: application/zip
 
     - name: Upload Release Assets_2
