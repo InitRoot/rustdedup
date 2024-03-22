@@ -64,3 +64,5 @@ jobs:
       run: |
             gh release upload ${{ github.run_number }} /home/runner/work/rustdedup/rustdedup/artifacts/aarch64-unknown-linux-gnu_artifact.zip
             gh release upload ${{ github.run_number }} /home/runner/work/rustdedup/rustdedup/artifacts/x86_64-unknown-linux-gnu_artifact.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
