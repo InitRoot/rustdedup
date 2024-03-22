@@ -60,12 +60,22 @@ jobs:
     - name: List files in the working directory
       run: ls -la ./artifacts/
 
-    - name: Upload Release Assets
+    - name: Upload Release Assets_1
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ matrix.target }}_artifact.zip
-        asset_name: ${{ matrix.target }}_artifact.zip
+        asset_path: ./artifacts/
+        asset_name: aarch64-unknown-linux-gnu_artifact.zip
+        asset_content_type: application/zip
+
+    - name: Upload Release Assets_2
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./artifacts/
+        asset_name: x86_64-unknown-linux-gnu_artifact.zip
         asset_content_type: application/zip
