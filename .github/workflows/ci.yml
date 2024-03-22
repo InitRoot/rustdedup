@@ -31,7 +31,7 @@ jobs:
       run: cargo install cross
 
     - name: Build with cross
-      run: cross build --target ${{ matrix.target }}
+      run: cross build --release --target ${{ matrix.target }} 
       env:
         CROSS_COMPILE: 1
 
@@ -41,4 +41,25 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME }}_artifact
-        path: target/${{ matrix.target }}/debug/
+        path: target/${{ matrix.target }}/release/
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.actionsgit }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./path/to/your/asset.zip
+        asset_name: asset.zip
+        asset_content_type: application/zip
