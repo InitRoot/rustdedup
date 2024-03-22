@@ -19,6 +19,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # Fetch all history for all tags and branches
+
+    - name: Determine Next Version
+      id: next_version
+      run: |
+        # Example: Increment patch version
+        # Requires git tag history to determine the next version
+        # Fallback to 1.0.0 if no tags are found
+        LAST_VERSION=$(git describe --tags --abbrev=0 --match "v*" 2> /dev/null || echo "v0.0.0")
+        NEXT_VERSION=$(echo $LAST_VERSION | awk -F. '{print $1 "." $2 "." $3+1}')
+        echo "Next version: $NEXT_VERSION"
+        echo "::set-output name=version::$NEXT_VERSION"
+        echo "NEW_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
     - name: Install Rust
       uses: actions-rs/toolchain@v1
@@ -49,8 +63,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
       with:
-        tag_name: ${{ matrix.target }}
-        release_name: Release ${{ matrix.target }}
+        tag_name: ${{ steps.next_version.outputs.version }}
+        release_name: Release ${{ steps.next_version.outputs.version }}
         draft: false
         prerelease: false
 
