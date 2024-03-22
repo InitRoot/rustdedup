@@ -62,9 +62,7 @@ jobs:
         prerelease: false
     - name: '📦 Packages Upload'
       run: |
-            ls -la ./artifacts/
-            ls -la ./artifacts/aarch64-unknown-linux-gnu_artifact.zip/aarch64-unknown-linux-gnu_artifact.zip/
             gh release upload ${{ github.run_number }} ./artifacts/aarch64-unknown-linux-gnu_artifact.zip/aarch64-unknown-linux-gnu_artifact.zip
-            gh release upload ${{ github.run_number }} /home/runner/work/rustdedup/rustdedup/artifacts/x86_64-unknown-linux-gnu_artifact.zip
+            gh release upload ${{ github.run_number }} ./artifacts/x86_64-unknown-linux-gnu_artifact.zip/x86_64-unknown-linux-gnu_artifact.zip
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONSGIT }}
