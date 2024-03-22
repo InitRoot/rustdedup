@@ -1,5 +1,9 @@
 # rustdedup
-Deduplicate files from stdin at rust speeds, output in stdout.
+![Follow on Twitter](https://img.shields.io/twitter/follow/frans_initroot?label=Follow%20&style=social)
+![GitHub last commit](https://img.shields.io/github/last-commit/initroot/rustdedup)
+![GitHub stars](https://img.shields.io/github/stars/initroot/rustdedup)
+
+Deduplicate files at fast speeds! Written in RUST.
 
 ### Memory optimizations made:
 * Well rust.
